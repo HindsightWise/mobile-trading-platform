@@ -1,0 +1,48 @@
+# Continuous Integration workflow for mobile-depth-map
+# Pushes and PRs on main run lint, typecheck, build, then post to Discord on success.
+
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # ─── Checkout repo ────────────────────────────────────────────────
+      - uses: actions/checkout@v4
+
+      # ─── Setup Node (18.x) and enable pnpm cache ─────────────────────
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: "pnpm"
+
+      # ─── Install dependencies ─────────────────────────────────────────
+      - name: Install dependencies
+        run: |
+          corepack enable
+          pnpm install --frozen-lockfile
+
+      # ─── Lint & type-check the monorepo ───────────────────────────────
+      - name: Lint & Type-check
+        run: pnpm turbo run lint typecheck --concurrency=50%
+
+      # ─── Build all packages ───────────────────────────────────────────
+      - name: Build
+        run: pnpm turbo run build --concurrency=50%
+
+      # ─── Discord notification (only on success) ───────────────────────
+      - name: Notify Discord
+        if: success()
+        uses: Ilshidur/action-discord@v3
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          args: |
+            ✅ **${{ github.repository }}** commit `${{ github.sha }}` built & lint-checked successfully.
