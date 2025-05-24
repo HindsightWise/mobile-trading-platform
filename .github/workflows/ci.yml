@@ -17,14 +17,20 @@ jobs:
       # ─── Checkout repo ────────────────────────────────────────────────
       - uses: actions/checkout@v4
 
-      # ─── Setup Node (18.x) and enable pnpm cache ─────────────────────
+      # ─── Setup Node (18.x) ────────────────────────────────────────────
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: "pnpm"
 
-      # ─── Install dependencies ─────────────────────────────────────────
+      # ─── Install pnpm & restore cache ────────────────────────────────
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
+
+      # ─── Install dependencies ───────────────────────────────────────── ─────────────────────────────────────────
       - name: Install dependencies
         run: |
           corepack enable
