@@ -1,4 +1,4 @@
-# Continuous Integration workflow for mobile-depth-map
+# Continuous Integration workflow for mobile-depth-map .
 # Pushes and PRs on main run lint, typecheck, build, then post to Discord on success.
 
 name: CI
