@@ -41,7 +41,7 @@ jobs:
       # ─── Discord notification (only on success) ───────────────────────
       - name: Notify Discord
         if: success()
-        uses: Ilshidur/action-discord@v3
+        uses: Ilshidur/action-discord@0.3.2  # corrected tag
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
           args: |
