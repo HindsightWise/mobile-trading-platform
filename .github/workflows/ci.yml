@@ -38,11 +38,11 @@ jobs:
 
       # ─── Lint & type-check the monorepo ───────────────────────────────
       - name: Lint & Type-check
-        run: pnpm turbo run lint typecheck --concurrency=50%
+        run: pnpm dlx turbo run lint typecheck --concurrency=50%
 
       # ─── Build all packages ───────────────────────────────────────────
       - name: Build
-        run: pnpm turbo run build --concurrency=50%
+        run: pnpm dlx turbo run build --concurrency=50%
 
       # ─── Discord notification (only on success) ───────────────────────
       - name: Notify Discord
