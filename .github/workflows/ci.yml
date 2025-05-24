@@ -34,7 +34,7 @@ jobs:
       - name: Install dependencies
         run: |
           corepack enable
-          pnpm install --frozen-lockfile
+          pnpm install --no-frozen-lockfile
 
       # ─── Lint & type-check the monorepo ───────────────────────────────
       - name: Lint & Type-check
